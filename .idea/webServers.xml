@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="4c15ee48-696d-4a7d-85bd-4b849dc4392b" name="astar">
+        <fileTransfer rootFolder="/home/sunchao/BiLSTM+CRF" accessType="SFTP" host="10.2.56.213" port="22" sshConfigId="88ee16f0-c89c-4839-9d3b-6538f13c5a20" sshConfig="sunchao@10.2.56.213:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
