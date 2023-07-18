@@ -36,7 +36,7 @@ Trained with Tesla T4 for for one night (70 epochs), obtain 91.01% F1.
 
 ## Future Works
 - Next papers：
-  - BiLSTM-CRF+ELMo ((Peters et al., 2018)
+  - BiLSTM-CRF+ELMo (Peters et al., 2018)
   - LM-LSTM-CRF (Liu et al., 2018)
   - Flair
   - ...
