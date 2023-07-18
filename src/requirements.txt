@@ -1,0 +1,11 @@
+visdom
+
+matplotlib
+
+torch
+
+tqdm
+
+sklearn
+
+scikit-learn
