@@ -215,6 +215,7 @@ class BiLSTM_CRF(nn.Module):
     def viterbi_decode(self, feats):
         backtrace = []
         alpha = torch.full((1, self.tagset_size), -10000.0, device=self.device)
+        
         alpha[0][self.tag_to_ix[START_TAG]] = 0
         for feat in feats:
             smat = (alpha.T + feat.unsqueeze(0) + self.transitions)  # (tagset_size, tagset_size)
