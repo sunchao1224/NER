@@ -52,9 +52,10 @@ Replace `your_remote_server_ip` with the actual IP address of your remote server
 5. Now, your Python code running on the remote server should be able to send data to the Visdom server, and you can view the visualizations on your local machine by visiting the URL mentioned in step 3.
 
 ## Usage:
-'python train.py' to train the model.
-'python transfer.py' to transfer parameters.
-'python self-training.py' to do self-training.
+`python train.py` to train the model.
+
+`python transfer.py` to transfer parameters.
+`python self-training.py` to do self-training.
 
 ## References
 - https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html
