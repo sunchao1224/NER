@@ -55,6 +55,7 @@ Replace `your_remote_server_ip` with the actual IP address of your remote server
 `python train.py` to train the model.
 
 `python transfer.py` to transfer parameters.
+
 `python self-training.py` to do self-training.
 
 ## References
