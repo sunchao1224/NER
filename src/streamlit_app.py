@@ -9,24 +9,21 @@ from loader import *
 
 #Page configuration
 st.set_page_config(
-    page_title='Simple Demo for NER',
+    page_title='Simple Demo for Legal NER',
     layout = 'wide',
     initial_sidebar_state='expanded'
 )
 
 #Title of the app
-st.title('Simple Demo for NER')
+st.title('Simple Demo for Legal NER')
 
 #Input widgets
 # st.sidebar.subheader('Input features')
 option = st.selectbox(
     'Choose the model for your NER task',
-    ('General', 'Legal(full)', 'Legal(5%)', 'Legal(5% with transfer)')
+    ('Legal(full)', 'Legal(5%)', 'Legal(5% with transfer)')
 )
-if option == 'General':
-    model_name = "models/model_general_iobes_gpu"
-    mapping_file = "models/mapping_model_general_iobes_gpu_random_outlayer.pkl"
-elif option == 'Legal(full)':
+if option == 'Legal(full)':
     model_name = "models/model_full_trained_on_ENER"
     mapping_file = "models/mapping_model_full_trained_on_ENER.pkl"
 elif option == 'Legal(5%)':
@@ -36,8 +33,8 @@ elif option == 'Legal(5% with transfer)':
     model_name = "models/model_10k_train_ENER_transfer"
     mapping_file = "models/mapping_model_10k_train_ENER_transfer.pkl"
 else:
-    model_name = "models/model_general_iobes_gpu"
-    mapping_file = "models/mapping_model_general_iobes_gpu_random_outlayer.pkl"
+    model_name = "models/model_full_trained_on_ENER"
+    mapping_file = "models/mapping_model_full_trained_on_ENER.pkl"
 
 model = torch.load(model_name)
 
@@ -52,11 +49,17 @@ word_embeds = mappings["word_embeds"]
 
 id_to_tag = {id: tag for tag, id in tag_to_id.items()}
 
-
-
-
 st.write('Hello, you selected:', option)
-st.write('Hello, tag2id"', tag_to_id)
+
+entity_type_to_color = {
+    "LOC": "lightblue",
+    "PER": "lightgreen",
+    "MISC": "lightpink",
+    "LEGISLATION/ACT": "lightcoral",
+    "COURT": "lightsalmon",
+    "ORG": "lightseagreen",
+    "GOVERNMENT": "lightsteelblue",
+}
 
 input = st.text_input('Input text')
 if input:
@@ -82,7 +85,24 @@ if input:
     val, out = model(dwords.cuda(), chars2_mask.cuda(), dcaps.cuda(), chars2_length, {})
     predicted_id = out
     for (word, pred_id) in zip(str_words, predicted_id):
-        line = ' '.join([word, id_to_tag[pred_id]])
+        # line = ' '.join([word, id_to_tag[pred_id]])
+        line = (word, id_to_tag[pred_id][2:] if id_to_tag[pred_id] != 'O' else 'O')
         prediction.append(line)
-    st.write(prediction)
+    highlighted_text = ''
+
+    current_entity_type = None
+    for entity, entity_type in prediction:
+        color = entity_type_to_color.get(entity_type, "white")
+        if current_entity_type != entity_type:
+            if current_entity_type is not None:
+                highlighted_text += "</mark></span> "  # Close previous entity
+            highlighted_text += f"<span style='display: inline-block; text-align: center;'><span style='font-size: 0.8em; line-height: 1; color: {color};'>{entity_type}</span><br/><mark style='background-color: {color};'>{entity} "
+            current_entity_type = entity_type
+        else:
+            highlighted_text += f"{entity} "
+    highlighted_text += "</mark></span>"  # Close the last entity
+
+    st.subheader("Ouput")
+    st.markdown(highlighted_text, unsafe_allow_html=True)
+
 
