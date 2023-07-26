@@ -20,8 +20,8 @@ st.title('Simple Demo for Legal NER')
 #Input widgets
 # st.sidebar.subheader('Input features')
 option = st.selectbox(
-    'Choose the model for your NER task',
-    ('Legal(full)', 'Legal(5%)', 'Legal(5% with transfer)')
+    'Choose the model trained on different size of E-NER legal dataset',
+    ('Legal(100%)', 'Legal(5%)', 'Legal(5% with transfer)')
 )
 if option == 'Legal(full)':
     model_name = "models/model_full_trained_on_ENER"
@@ -60,10 +60,19 @@ entity_type_to_color = {
     "ORG": "lightseagreen",
     "GOVERNMENT": "lightsteelblue",
 }
+input0 = st.selectbox(
+    'Choose the example input if you want',
+    ("The United States of America and United Kingdom, Tom Cruise and the Security Exchange Act of 1934", 
+     "John Doe, a representative from Google Inc., is standing in the Supreme Court in New York, challenging the U.S. Government on a provision of the Affordable Care Act, citing implications on Artificial Intelligence, a concept that's being reviewed by legal scholars worldwide.", 
+     "Alice, a researcher at the University of Sydney, recently presented to the High Court of Australia in Sydney a case against the Australian Government, arguing that the Racial Discrimination Act 1975 should take into account the impacts of Climate Change, a growing concern in the scientific community.",
+     "Mark, a legal advisor for the United Nations, recently appeared before the International Court of Justice in The Hague, to argue that Cryptocurrency, a new form of digital asset, is covered under the GDPR, as enforced by the European Union.")
+)
 
-input = st.text_input('Input text')
+input = st.text_area("Input text", value=input0)
+# input = st.text_input('Input text',input0)
 if input:
     prediction = []
+    detail = []
     st.write('The current input text is:', input)
     str_words = input.strip().split()
     words = [word_to_id[w.lower() if w.lower() in word_to_id else '<UNK>']
@@ -88,6 +97,8 @@ if input:
         # line = ' '.join([word, id_to_tag[pred_id]])
         line = (word, id_to_tag[pred_id][2:] if id_to_tag[pred_id] != 'O' else 'O')
         prediction.append(line)
+        detail.append(' '.join([word, id_to_tag[pred_id]]))
+
     highlighted_text = ''
 
     current_entity_type = None
@@ -104,5 +115,6 @@ if input:
 
     st.subheader("Ouput")
     st.markdown(highlighted_text, unsafe_allow_html=True)
+    st.write("Detail of the output",detail)
 
 
