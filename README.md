@@ -58,6 +58,8 @@ Replace `your_remote_server_ip` with the actual IP address of your remote server
 
 `python self-training.py` to do self-training.
 
+`streamlit run streamlit_app.py` to open the demo(connect to gpu server first).
+
 ## References
 - https://pytorch.org/tutorials/beginner/nlp/advanced_tutorial.html
 - https://github.com/ZubinGou/NER-BiLSTM-CRF-PyTorch
