@@ -24,16 +24,16 @@ option = st.selectbox(
     ('Legal(100%)', 'Legal(5%)', 'Legal(5% with transfer)')
 )
 if option == 'Legal(full)':
-    model_name = "models/model_full_trained_on_ENER.model"
+    model_name = "models/model_full_trained_on_ENER"
     mapping_file = "models/mapping_model_full_trained_on_ENER.pkl"
 elif option == 'Legal(5%)':
-    model_name = "models/model_10k_train_ENER.model"
+    model_name = "models/model_10k_train_ENER"
     mapping_file = "models/mapping_model_10k_train_ENER.pkl"
 elif option == 'Legal(5% with transfer)':
-    model_name = "models/model_10k_train_ENER_transfer.model"
+    model_name = "models/model_10k_train_ENER_transfer"
     mapping_file = "models/mapping_model_10k_train_ENER_transfer.pkl"
 else:
-    model_name = "models/model_full_trained_on_ENER.model"
+    model_name = "models/model_full_trained_on_ENER"
     mapping_file = "models/mapping_model_full_trained_on_ENER.pkl"
 
 @st.cache_resource
