@@ -24,22 +24,31 @@ option = st.selectbox(
     ('Legal(100%)', 'Legal(5%)', 'Legal(5% with transfer)')
 )
 if option == 'Legal(full)':
-    model_name = "models/model_full_trained_on_ENER"
+    model_name = "models/model_full_trained_on_ENER.model"
     mapping_file = "models/mapping_model_full_trained_on_ENER.pkl"
 elif option == 'Legal(5%)':
-    model_name = "models/model_10k_train_ENER"
+    model_name = "models/model_10k_train_ENER.model"
     mapping_file = "models/mapping_model_10k_train_ENER.pkl"
 elif option == 'Legal(5% with transfer)':
-    model_name = "models/model_10k_train_ENER_transfer"
+    model_name = "models/model_10k_train_ENER_transfer.model"
     mapping_file = "models/mapping_model_10k_train_ENER_transfer.pkl"
 else:
-    model_name = "models/model_full_trained_on_ENER"
+    model_name = "models/model_full_trained_on_ENER.model"
     mapping_file = "models/mapping_model_full_trained_on_ENER.pkl"
 
-model = torch.load(model_name)
+@st.cache_resource
+def load_model(model_name):
+    return torch.load(model_name)
 
-with open(mapping_file, "rb") as f:
-    mappings = pickle.load(f)
+model = load_model(model_name)
+
+@st.cache_resource
+def load_mappings(mapping_file):
+    with open(mapping_file, "rb") as f:
+        mappings = pickle.load(f)
+    return mappings
+
+mappings = load_mappings(mapping_file)
 
 word_to_id = mappings["word_to_id"]
 tag_to_id = mappings["tag_to_id"]
